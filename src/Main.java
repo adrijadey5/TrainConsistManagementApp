@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -7,39 +8,57 @@ public class Main {
         // Welcome message
         System.out.println("=== Train Consist Management App ===");
 
-        // UC18: Array of bogie IDs (unsorted)
-        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        // Unsorted bogie IDs (to also test sorting condition)
+        String[] bogieIds = {"BG309", "BG101", "BG550", "BG205", "BG412"};
 
-        // Display available bogies
-        System.out.println("Available Bogie IDs:");
+        // Handle empty array case
+        if (bogieIds.length == 0) {
+            System.out.println("No bogies available.");
+            return;
+        }
+
+        // Step 1: Sort the array (important precondition)
+        Arrays.sort(bogieIds);
+
+        System.out.println("Sorted Bogie IDs:");
         for (String id : bogieIds) {
             System.out.print(id + " ");
         }
 
-        // Take user input for search
+        // Step 2: Take user input
         Scanner sc = new Scanner(System.in);
         System.out.print("\n\nEnter Bogie ID to search: ");
-        String searchKey = sc.nextLine();
+        String key = sc.nextLine();
 
-        // Linear Search logic
+        // Step 3: Binary Search
+        int low = 0;
+        int high = bogieIds.length - 1;
         boolean found = false;
 
-        for (int i = 0; i < bogieIds.length; i++) {
-            if (bogieIds[i].equals(searchKey)) {
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+
+            int comparison = key.compareTo(bogieIds[mid]);
+
+            if (comparison == 0) {
                 found = true;
-                System.out.println("\nBogie found at position: " + i);
-                break; // Early termination
+                System.out.println("\nBogie found at position: " + mid);
+                break;
+            } else if (comparison < 0) {
+                high = mid - 1; // search left
+            } else {
+                low = mid + 1; // search right
             }
         }
 
-        // Result
+        // Step 4: Result
         if (found) {
             System.out.println("Search Result: Bogie ID exists.");
         } else {
             System.out.println("Search Result: Bogie ID NOT found.");
         }
 
-        // Program continues
         System.out.println("\nProgram continues...");
     }
 }

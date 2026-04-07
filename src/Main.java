@@ -1,11 +1,11 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
-// Bogie class (extended with type)
+// Reusing Bogie class
 class Bogie {
     String name;
     int capacity;
-    String type; // Passenger or Goods
+    String type;
 
     Bogie(String name, int capacity, String type) {
         this.name = name;
@@ -31,31 +31,22 @@ public class Main {
         bogies.add(new Bogie("Sleeper", 72, "Passenger"));
         bogies.add(new Bogie("AC Chair", 56, "Passenger"));
         bogies.add(new Bogie("First Class", 24, "Passenger"));
-        bogies.add(new Bogie("Rectangular", 120, "Goods"));
-        bogies.add(new Bogie("Cylindrical", 150, "Goods"));
-        bogies.add(new Bogie("Sleeper", 72, "Passenger")); // duplicate type example
+        bogies.add(new Bogie("Luxury Coach", 80, "Passenger"));
 
-        // Display original list
+        // Display bogies
         System.out.println("\nAll Bogies:");
         bogies.forEach(System.out::println);
 
-        // Grouping by type
-        System.out.println("\nGrouping bogies by type...");
+        // Calculate total seating capacity using Stream
+        int totalCapacity = bogies.stream()
+                .map(b -> b.capacity)        // extract capacity
+                .reduce(0, Integer::sum);   // aggregate
 
-        Map<String, List<Bogie>> groupedBogies = bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.type));
-
-        // Display grouped result
-        System.out.println("\nGrouped Bogies:");
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-            System.out.println("\nType: " + entry.getKey());
-            for (Bogie b : entry.getValue()) {
-                System.out.println("  " + b);
-            }
-        }
+        // Display result
+        System.out.println("\nTotal Seating Capacity: " + totalCapacity);
 
         // Verify original list unchanged
-        System.out.println("\nOriginal List After Grouping (Unchanged):");
+        System.out.println("\nOriginal List After Aggregation (Unchanged):");
         bogies.forEach(System.out::println);
     }
 }

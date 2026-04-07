@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
@@ -8,39 +8,26 @@ public class Main {
         // Welcome message
         System.out.println("=== Train Consist Management App ===");
 
-        // UC1: Initialize train consist
-        List<String> trainConsist = new ArrayList<>();
+        // Create a HashSet to store unique bogie IDs
+        Set<String> bogieIds = new HashSet<>();
 
-        System.out.println("Train consist initialized.");
-        System.out.println("Initial number of bogies: " + trainConsist.size());
+        // Adding bogie IDs (including duplicates intentionally)
+        System.out.println("\nAdding bogie IDs...");
 
-        // ---------------- UC2 START ----------------
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG103");
+        bogieIds.add("BG101"); // Duplicate
+        bogieIds.add("BG104");
+        bogieIds.add("BG102"); // Duplicate
 
-        // Add passenger bogies
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC Chair");
-        trainConsist.add("First Class");
-
-        System.out.println("\nPassenger bogies added.");
-        System.out.println("Current Train Consist: " + trainConsist);
-
-        // Remove one bogie (AC Chair)
-        trainConsist.remove("AC Chair");
-
-        System.out.println("\nAfter removing AC Chair bogie:");
-        System.out.println("Current Train Consist: " + trainConsist);
-
-        // Check existence of Sleeper bogie
-        if (trainConsist.contains("Sleeper")) {
-            System.out.println("\nSleeper bogie exists in the train.");
-        } else {
-            System.out.println("\nSleeper bogie does NOT exist in the train.");
+        // Display final unique bogie IDs
+        System.out.println("\nFinal Unique Bogie IDs:");
+        for (String id : bogieIds) {
+            System.out.println(id);
         }
 
-        // Final state
-        System.out.println("\nFinal Train Consist:");
-        System.out.println(trainConsist);
-
-        // ---------------- UC2 END ----------------
+        // Display total count
+        System.out.println("\nTotal unique bogies: " + bogieIds.size());
     }
 }

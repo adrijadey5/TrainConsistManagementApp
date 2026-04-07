@@ -5,35 +5,45 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Welcome message
         System.out.println("=== Train Consist Management App ===");
 
-        // Unsorted bogie IDs (to also test sorting condition)
-        String[] bogieIds = {"BG309", "BG101", "BG550", "BG205", "BG412"};
+        // Try changing this to {} to test exception case
+        String[] bogieIds = {"BG101", "BG205", "BG309"};
 
-        // Handle empty array case
-        if (bogieIds.length == 0) {
-            System.out.println("No bogies available.");
-            return;
-        }
-
-        // Step 1: Sort the array (important precondition)
-        Arrays.sort(bogieIds);
-
-        System.out.println("Sorted Bogie IDs:");
-        for (String id : bogieIds) {
-            System.out.print(id + " ");
-        }
-
-        // Step 2: Take user input
         Scanner sc = new Scanner(System.in);
-        System.out.print("\n\nEnter Bogie ID to search: ");
+        System.out.print("Enter Bogie ID to search: ");
         String key = sc.nextLine();
 
-        // Step 3: Binary Search
+        try {
+            boolean result = searchBogie(bogieIds, key);
+
+            if (result) {
+                System.out.println("\nSearch Result: Bogie ID exists.");
+            } else {
+                System.out.println("\nSearch Result: Bogie ID NOT found.");
+            }
+
+        } catch (IllegalStateException e) {
+            System.out.println("\nError: " + e.getMessage());
+        }
+
+        System.out.println("\nProgram continues...");
+    }
+
+    // UC20: Safe search method with validation
+    public static boolean searchBogie(String[] bogieIds, String key) {
+
+        // 🔴 Fail-Fast Validation
+        if (bogieIds == null || bogieIds.length == 0) {
+            throw new IllegalStateException("Cannot perform search: No bogies available in the train.");
+        }
+
+        // Step 1: Sort before binary search
+        Arrays.sort(bogieIds);
+
+        // Step 2: Binary Search
         int low = 0;
         int high = bogieIds.length - 1;
-        boolean found = false;
 
         while (low <= high) {
 
@@ -42,23 +52,14 @@ public class Main {
             int comparison = key.compareTo(bogieIds[mid]);
 
             if (comparison == 0) {
-                found = true;
-                System.out.println("\nBogie found at position: " + mid);
-                break;
+                return true; // found
             } else if (comparison < 0) {
-                high = mid - 1; // search left
+                high = mid - 1;
             } else {
-                low = mid + 1; // search right
+                low = mid + 1;
             }
         }
 
-        // Step 4: Result
-        if (found) {
-            System.out.println("Search Result: Bogie ID exists.");
-        } else {
-            System.out.println("Search Result: Bogie ID NOT found.");
-        }
-
-        System.out.println("\nProgram continues...");
+        return false; // not found
     }
 }

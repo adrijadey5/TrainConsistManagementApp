@@ -1,4 +1,5 @@
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -7,27 +8,25 @@ public class Main {
         // Welcome message
         System.out.println("=== Train Consist Management App ===");
 
-        // Create LinkedHashSet to maintain order + uniqueness
-        LinkedHashSet<String> trainFormation = new LinkedHashSet<>();
+        // Create HashMap to store bogie and its capacity
+        HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        // Adding bogies
-        System.out.println("\nAttaching bogies...");
-        trainFormation.add("Engine");
-        trainFormation.add("Sleeper");
-        trainFormation.add("Cargo");
-        trainFormation.add("Guard");
+        // Adding bogie-capacity mappings
+        System.out.println("\nAdding bogie capacities...");
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 54);
+        bogieCapacityMap.put("First Class", 24);
+        bogieCapacityMap.put("Cargo", 100); // Example load capacity
 
-        // محاولة إضافة تكرار (duplicate)
-        System.out.println("\nAttempting to add duplicate bogie (Sleeper)...");
-        trainFormation.add("Sleeper"); // Duplicate - will be ignored
-
-        // Display final formation
-        System.out.println("\nFinal Train Formation (Insertion Order Preserved):");
-        for (String bogie : trainFormation) {
-            System.out.println(bogie);
+        // Display bogie capacities
+        System.out.println("\nBogie Capacity Details:");
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println("Bogie: " + entry.getKey() +
+                    " | Capacity: " + entry.getValue());
         }
 
-        // Display total count
-        System.out.println("\nTotal bogies: " + trainFormation.size());
+        // Example lookup
+        System.out.println("\nChecking capacity of Sleeper:");
+        System.out.println("Sleeper Capacity: " + bogieCapacityMap.get("Sleeper"));
     }
 }
